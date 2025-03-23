@@ -1,139 +1,82 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Создание NFC визитки</title>
-    <style>
-        .redButton {
-            color: red;
-            cursor: pointer;
-        }
-        .greenButton {
-            color: green;
-            cursor: pointer;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0,0,0);
-            background-color: rgba(0,0,0,0.4);
-            padding-top: 60px;
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-        }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-    </style>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website with Login & Registration Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Unicons -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 </head>
 <body>
-    <h1 style="text-align: center;">
-        <strong>Создание NFC визитки</strong><br /><br /><br />
-    </h1>
-    <!-- Этот комментарий виден только в редакторе исходного кода -->
-    <p style="text-align: center;">
-        <strong>Настройте NFC визитку и получите свою уникальную ссылку&nbsp;</strong>
-    </p>
-    <h2 style="text-align: center;">
-        <strong>
-            &nbsp; &nbsp;&nbsp;<span class="redButton" id="registerBtn">&nbsp;Регистрация</span>
-        </strong>
-    </h2>
-    <h2 style="text-align: center;">
-        <strong>
-            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
-            <span class="greenButton" id="loginBtn">&nbsp;Вход</span>
-        </strong>
-    </h2>
-
-    <!-- Модальное окно для регистрации -->
-    <div id="registerModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeRegister">&times;</span>
-            <h2>Регистрация</h2>
-            <form>
-                <label for="regUsername">Имя пользователя:</label><br>
-                <input type="text" id="regUsername" name="regUsername"><br>
-                <label for="regPassword">Пароль:</label><br>
-                <input type="password" id="regPassword" name="regPassword"><br><br>
-                <input type="submit" value="Регистрация">
-            </form>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="#" class="nav_logo">CodingLab</a>
+            <ul class="nav_items">
+                <li class="nav_item">
+                    <a href="#" class="nav_link">Home</a>
+                    <a href="#" class="nav_link">Product</a>
+                    <a href="#" class="nav_link">Services</a>
+                    <a href="#" class="nav_link">Contact</a>
+                </li>
+            </ul>
+            <button class="button" id="form-open">Login</button>
+        </nav>
+    </header>
+    <!-- Home -->
+    <section class="home">
+        <div class="form_container">
+            <i class="uil uil-times form_close"></i>
+            <!-- Login Form -->
+            <div class="form login_form">
+                <form action="{{ url_for('login') }}" method="POST">
+                    <h2>Login</h2>
+                    <div class="input_box">
+                        <input type="email" name="email" placeholder="Enter your email" required>
+                        <i class="uil uil-envelope-alt email"></i>
+                    </div>
+                    <div class="input_box">
+                        <input type="password" name="password" placeholder="Enter your password" required>
+                        <i class="uil uil-lock password"></i>
+                        <i class="uil uil-eye-slash pw_hide"></i>
+                    </div>
+                    <div class="option_field">
+                        <span class="checkbox">
+                            <input type="checkbox" id="check">
+                            <label for="check">Remember me</label>
+                        </span>
+                        <a href="#" class="forgot_pw">Forgot password?</a>
+                    </div>
+                    <button class="button">Login Now</button>
+                    <div class="login_signup">Don't have an account? <a href="#" id="signup">Signup</a></div>
+                </form>
+            </div>
+            <!-- Signup Form -->
+            <div class="form signup_form">
+                <form action="{{ url_for('register') }}" method="POST">
+                    <h2>Signup</h2>
+                    <div class="input_box">
+                        <input type="email" name="email" placeholder="Enter your email" required>
+                        <i class="uil uil-envelope-alt email"></i>
+                    </div>
+                    <div class="input_box">
+                        <input type="password" name="password" placeholder="Create password" required>
+                        <i class="uil uil-lock password"></i>
+                        <i class="uil uil-eye-slash pw_hide"></i>
+                    </div>
+                    <div class="input_box">
+                        <input type="password" name="confirm_password" placeholder="Confirm password" required>
+                        <i class="uil uil-lock password"></i>
+                        <i class="uil uil-eye-slash pw_hide"></i>
+                    </div>
+                    <button class="button">Signup Now</button>
+                    <div class="login_signup">Already have an account? <a href="#" id="login">Login</a></div>
+                </form>
+            </div>
         </div>
-    </div>
-
-    <!-- Модальное окно для входа -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeLogin">&times;</span>
-            <h2>Вход</h2>
-            <form>
-                <label for="loginUsername">Имя пользователя:</label><br>
-                <input type="text" id="loginUsername" name="loginUsername"><br>
-                <label for="loginPassword">Пароль:</label><br>
-                <input type="password" id="loginPassword" name="loginPassword"><br><br>
-                <input type="submit" value="Вход">
-            </form>
-        </div>
-    </div>
-
-    <script>
-        // Get the modals
-        var registerModal = document.getElementById("registerModal");
-        var loginModal = document.getElementById("loginModal");
-
-        // Get the buttons that open the modals
-        var registerBtn = document.getElementById("registerBtn");
-        var loginBtn = document.getElementById("loginBtn");
-
-        // Get the <span> elements that close the modals
-        var closeRegister = document.getElementById("closeRegister");
-        var closeLogin = document.getElementById("closeLogin");
-
-        // When the user clicks the button, open the modal 
-        registerBtn.onclick = function() {
-            registerModal.style.display = "block";
-        }
-        loginBtn.onclick = function() {
-            loginModal.style.display = "block";
-        }
-
-        // When the user clicks on <span> (x), close the modal
-        closeRegister.onclick = function() {
-            registerModal.style.display = "none";
-        }
-        closeLogin.onclick = function() {
-            loginModal.style.display = "none";
-        }
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == registerModal) {
-                registerModal.style.display = "none";
-            }
-            if (event.target == loginModal) {
-                loginModal.style.display = "none";
-            }
-        }
-    </script>
+    </section>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
