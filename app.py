@@ -4,9 +4,10 @@ from forms import RegistrationForm, CardForm
 from main import User, Card, db  # Обновите импорт, чтобы использовать main и db
 import os
 from werkzeug.utils import secure_filename
+from config import Config  # Импортируем Config
 
 app = Flask(__name__)
-app.config.from_object('config.Config')
+app.config.from_object(Config)  # Загружаем конфигурацию
 db.init_app(app)
 
 @app.route('/')
