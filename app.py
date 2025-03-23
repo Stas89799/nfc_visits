@@ -54,8 +54,24 @@ def create_card():
         if file:
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        else:
+            filename = None
 
-        card = Card(first_name=form.first_name.data, last_name=form.last_name.data, phone=form.phone.data, photo=filename)
+        card = Card(
+            first_name=form.first_name.data,
+            last_name=form.last_name.data,
+            middle_name=form.middle_name.data,
+            birth_date=form.birth_date.data.strftime('%Y-%m-%d') if form.birth_date.data else None,
+            phone=form.phone.data,
+            email=form.email.data,
+            instagram=form.instagram.data,
+            telegram=form.telegram.data,
+            facebook=form.facebook.data,
+            whatsapp=form.whatsapp.data,
+            address=form.address.data,
+            photo=filename,
+            user_id=session['user_id']
+        )
         db.session.add(card)
         db.session.commit()
         flash('Card created successfully!', 'success')
@@ -66,6 +82,43 @@ def create_card():
 def view_card(card_id):
     card = Card.query.get_or_404(card_id)
     return render_template('view_card.html', card=card)
+
+@app.route('/edit_profile', methods=['GET', 'POST'])
+def edit_profile():
+    user_id = session.get('user_id')
+    if not user_id:
+        flash('Please log in to edit your profile.', 'warning')
+        return redirect(url_for('login'))
+
+    card = Card.query.filter_by(user_id=user_id).first()
+    if not card:
+        flash('No profile found for this user.', 'warning')
+        return redirect(url_for('create_card'))
+
+    form = CardForm(obj=card)
+    if form.validate_on_submit():
+        file = form.photo.data
+        if file:
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            card.photo = filename
+
+        card.first_name = form.first_name.data
+        card.last_name = form.last_name.data
+        card.middle_name = form.middle_name.data
+        card.birth_date = form.birth_date.data.strftime('%Y-%m-%d') if form.birth_date.data else None
+        card.phone = form.phone.data
+        card.email = form.email.data
+        card.instagram = form.instagram.data
+        card.telegram = form.telegram.data
+        card.facebook = form.facebook.data
+        card.whatsapp = form.whatsapp.data
+        card.address = form.address.data
+
+        db.session.commit()
+        flash('Profile updated successfully!', 'success')
+        return redirect(url_for('view_card', card_id=card.id))
+    return render_template('edit_profile.html', form=form)
 
 if __name__ == '__main__':
     with app.app_context():

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Edit Profile</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.first_name.label }}<br>
+            {{ form.first_name(size=20) }}
+        </p>
+        <p>
+            {{ form.last_name.label }}<br>
+            {{ form.last_name(size=20) }}
+        </p>
+        <p>
+            {{ form.middle_name.label }}<br>
+            {{ form.middle_name(size=20) }}
+        </p>
+        <p>
+            {{ form.birth_date.label }}<br>
+            {{ form.birth_date(size=20) }}
+        </p>
+        <p>
+            {{ form.phone.label }}<br>
+            {{ form.phone(size=20) }}
+        </p>
+        <p>
+            {{ form.email.label }}<br>
+            {{ form.email(size=20) }}
+        </p>
+        <p>
+            {{ form.instagram.label }}<br>
+            {{ form.instagram(size=20) }}
+        </p>
+        <p>
+            {{ form.telegram.label }}<br>
+            {{ form.telegram(size=20) }}
+        </p>
+        <p>
+            {{ form.facebook.label }}<br>
+            {{ form.facebook(size=20) }}
+        </p>
+        <p>
+            {{ form.whatsapp.label }}<br>
+            {{ form.whatsapp(size=20) }}
+        </p>
+        <p>
+            {{ form.address.label }}<br>
+            {{ form.address(size=20) }}
+        </p>
+        <p>
+            {{ form.photo.label }}<br>
+            {{ form.photo() }}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+</body>
+</html>
