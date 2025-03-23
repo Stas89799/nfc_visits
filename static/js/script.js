@@ -8,13 +8,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginBtn = document.getElementById('login');
 
     formOpenBtn.addEventListener('click', () => {
-        formContainer.style.display = 'flex';
+        document.querySelector('.home').classList.add('show');
+        formContainer.classList.add('active');
         loginForm.style.display = 'block';
         signupForm.style.display = 'none';
     });
 
     formCloseBtn.addEventListener('click', () => {
-        formContainer.style.display = 'none';
+        document.querySelector('.home').classList.remove('show');
+        formContainer.classList.remove('active');
     });
 
     signupBtn.addEventListener('click', () => {
