@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Card</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>{{ card.first_name }} {{ card.last_name }}</h1>
+    <p>Phone: {{ card.phone }}</p>
+    {% if card.photo %}
+    <img src="{{ url_for('static', filename='uploads/' + card.photo) }}" alt="Photo">
+    {% endif %}
+</body>
+</html>
