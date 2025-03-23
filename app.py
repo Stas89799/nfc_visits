@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, flash, request
 from flask_sqlalchemy import SQLAlchemy
 from forms import RegistrationForm, CardForm
-from models import User, Card
+from models import User, Card  # Проверьте, что импорт правильный
 import os
 
 app = Flask(__name__)
