@@ -1,6 +1,6 @@
-from flask import Flask, render_template, redirect, url_for, flash, request
+from flask import Flask, render_template, redirect, url_for, flash, request, session
 from flask_sqlalchemy import SQLAlchemy
-from forms import RegistrationForm, CardForm
+from forms import RegistrationForm, LoginForm, CardForm
 from main import User, Card, db  # Обновите импорт, чтобы использовать main и db
 import os
 from werkzeug.utils import secure_filename
@@ -8,6 +8,8 @@ from config import Config  # Импортируем Config
 
 app = Flask(__name__)
 app.config.from_object(Config)  # Загружаем конфигурацию
+app.config['SECRET_KEY'] = Config.SECRET_KEY
+app.config['SESSION_TYPE'] = 'filesystem'
 db.init_app(app)
 
 @app.route('/')
@@ -29,6 +31,19 @@ def register():
         else:
             flash('Username already exists. Please choose a different username.', 'danger')
     return render_template('register.html', form=form)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data, password=form.password.data).first()
+        if user:
+            session['user_id'] = user.id
+            flash('Login successful!', 'success')
+            return redirect(url_for('index'))
+        else:
+            flash('Invalid username or password', 'danger')
+    return render_template('login.html', form=form)
 
 @app.route('/create_card', methods=['GET', 'POST'])
 def create_card():
