@@ -3,10 +3,10 @@ from flask_sqlalchemy import SQLAlchemy
 from forms import RegistrationForm, CardForm
 from main import User, Card, db  # Обновите импорт, чтобы использовать main и db
 import os
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your_secret_key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config.from_object('config.Config')
 db.init_app(app)
 
 @app.route('/')
@@ -28,7 +28,13 @@ def register():
 def create_card():
     form = CardForm()
     if form.validate_on_submit():
-        card = Card(first_name=form.first_name.data, last_name=form.last_name.data, phone=form.phone.data)
+        # Сохранение фото
+        file = form.photo.data
+        if file:
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        card = Card(first_name=form.first_name.data, last_name=form.last_name.data, phone=form.phone.data, photo=filename)
         db.session.add(card)
         db.session.commit()
         flash('Card created successfully!', 'success')
