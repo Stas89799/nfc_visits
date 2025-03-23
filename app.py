@@ -18,11 +18,16 @@ def index():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, password=form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        flash('Registration successful!', 'success')
-        return redirect(url_for('create_card'))
+        # Проверка на уникальность имени пользователя
+        existing_user = User.query.filter_by(username=form.username.data).first()
+        if existing_user is None:
+            user = User(username=form.username.data, password=form.password.data)
+            db.session.add(user)
+            db.session.commit()
+            flash('Registration successful!', 'success')
+            return redirect(url_for('create_card'))
+        else:
+            flash('Username already exists. Please choose a different username.', 'danger')
     return render_template('register.html', form=form)
 
 @app.route('/create_card', methods=['GET', 'POST'])
