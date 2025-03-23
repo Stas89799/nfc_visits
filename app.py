@@ -1,13 +1,13 @@
 from flask import Flask, render_template, redirect, url_for, flash, request
 from flask_sqlalchemy import SQLAlchemy
 from forms import RegistrationForm, CardForm
-from main import User, Card  # Обновите импорт, чтобы использовать main
+from main import User, Card, db  # Обновите импорт, чтобы использовать main и db
 import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-db = SQLAlchemy(app)
+db.init_app(app)
 
 @app.route('/')
 def index():
