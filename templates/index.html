@@ -6,16 +6,27 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <!-- Unicons -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <style>
+        .home {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            background-image: url("{{ url_for('static', filename='uploads/bg.jpg') }}");
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
     <header class="header">
         <nav class="nav">
-            <a href="#" class="nav_logo">NFC карта</a>
+            <a href="#" class="nav_logo">NFC визитка</a>
             <ul class="nav_items">
                 <li class="nav_item">
                     <a href="#" class="nav_link">Home</a>
                     <a href="#" class="nav_link">Product</a>
+                    <a href="#" class="nav_link">Services</a>
                     <a href="#" class="nav_link">Contact</a>
                 </li>
             </ul>

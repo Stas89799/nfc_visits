@@ -69,9 +69,6 @@ a {
   position: relative;
   height: 100vh;
   width: 100%;
-  background-image: url("{{ url_for('static', filename='uploads/bg.jpg') }}");
-  background-size: cover;
-  background-position: center;
 }
 
 .home::before {
